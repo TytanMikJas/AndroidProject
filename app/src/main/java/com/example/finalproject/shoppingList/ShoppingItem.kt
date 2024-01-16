@@ -57,7 +57,7 @@ import java.security.AllPermission
 fun MyComposable() {
     LazyColumn {
         items(10) {
-            ShoppingItem(rememberNavController(),  DBItem("cherry", 5, 3.5F, true))
+            ShoppingItem(rememberNavController(),  DBItem("pineapple", 5, 3.5F, true))
         }
     }
 }
@@ -139,13 +139,13 @@ fun ShoppingItem(navController: NavController, item: DBItem){
 
         if(popup.value){
             Popup(
-                alignment = Alignment.TopStart,
+                alignment = Alignment.Center,
                 properties = PopupProperties()
             ) {
                 Column(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp)
-                    .clip(RoundedCornerShape(15.dp))
+                    .width(300.dp)
+                    .padding(5.dp)
+                    .clip(RoundedCornerShape(25.dp))
                     .background(color = MaterialTheme.colorScheme.secondaryContainer)
                 ){
                     Column(modifier = Modifier.align(Alignment.CenterHorizontally))
@@ -154,27 +154,25 @@ fun ShoppingItem(navController: NavController, item: DBItem){
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(10.dp),
-                            text = "Are you sure about deleting " + item.name + " ?",
+                            text = "Are you sure about deleting " + item.name + "?",
                             fontSize = 20.sp,
                             textAlign = TextAlign.Center,
-                            fontFamily = FontFamily.Monospace,
+                            fontFamily = FontFamily.SansSerif,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSecondaryContainer
                         )
                         Text(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(top = 10.dp),
-                            text = "You currently need " + item.number + " of them",
+                                .fillMaxWidth(),
+                            text = "You need " + item.number,
                             fontSize = 15.sp,
                             textAlign = TextAlign.Center,
                             color = MaterialTheme.colorScheme.onSecondaryContainer
                         )
                         Text(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(bottom = 10.dp),
-                            text = if (item.inBasket) "already in basket" else "not in basket",
+                                .fillMaxWidth(),
+                            text = if (item.inBasket) "in basket" else "not in basket",
                             fontSize = 15.sp,
                             textAlign = TextAlign.Center,
                             color = MaterialTheme.colorScheme.onSecondaryContainer
@@ -183,29 +181,28 @@ fun ShoppingItem(navController: NavController, item: DBItem){
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 16.dp, horizontal = 10.dp),
-                        horizontalArrangement = Arrangement.spacedBy(40.dp)
+                            .padding(horizontal = 10.dp),
+                        horizontalArrangement = Arrangement.Center,
                     ) {
-                        Button(
-                            onClick = { popup.value = false },
-                            modifier = Modifier
-                                .weight(1f)
-                        ) {
-                            Icon(imageVector = Icons.Default.Close, contentDescription = "No")
-                            Spacer(modifier = Modifier.width(10.dp))
-                            Text(text = "no")
-                        }
-
                         Button(
                             onClick = {
                                 DataRepo.getInstance(context).deleteItem(item)
                                 popup.value = false
                             },
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier
+                                .width(80.dp)
                         ) {
-                            Icon(imageVector = Icons.Default.Check, contentDescription = "Yes")
-                            Spacer(modifier = Modifier.width(10.dp))
                             Text(text = "yes")
+                        }
+
+                        Spacer(modifier = Modifier.width(80.dp))
+
+                        Button(
+                            onClick = { popup.value = false },
+                            modifier = Modifier
+                                .width(80.dp)
+                        ) {
+                            Text(text = "no")
                         }
                     }
                 }
