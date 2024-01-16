@@ -35,13 +35,13 @@ class DBItem : Serializable{
         this.inBasket = inBasket
         when (name.lowercase()) {
             "banana" -> image = R.drawable.banana
-            "cherry" -> R.drawable.cherry
-            "plum" -> R.drawable.plum
-            "mandarin" -> R.drawable.mandarin
-            "mango" -> R.drawable.mango
-            "pear" -> R.drawable.pear
-            "apple" -> R.drawable.apple
-            "pineapple" -> R.drawable.pineapple
+            "cherry" -> image = R.drawable.cherry
+            "plum" -> image = R.drawable.plum
+            "mandarin" -> image = R.drawable.mandarin
+            "mango" -> image = R.drawable.mango
+            "pear" -> image = R.drawable.pear
+            "apple" -> image = R.drawable.apple
+            "pineapple" -> image = R.drawable.pineapple
         }
     }
 
