@@ -3,6 +3,7 @@ package com.example.finalproject.repos
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.finalproject.R
 import java.io.Serializable
 import kotlin.random.Random
 
@@ -23,6 +24,8 @@ class DBItem : Serializable{
     @ColumnInfo(name = "boolean")
     var inBasket : Boolean = Random.nextBoolean()
 
+    var image: Int = R.drawable.banana
+
     constructor()
 
     constructor(name : String,  number : Int, rating: Float, inBasket: Boolean) : this() {
@@ -30,6 +33,16 @@ class DBItem : Serializable{
         this.number = number
         this.rating = rating
         this.inBasket = inBasket
+        when (name.lowercase()) {
+            "banana" -> image = R.drawable.banana
+            "cherry" -> R.drawable.cherry
+            "plum" -> R.drawable.plum
+            "mandarin" -> R.drawable.mandarin
+            "mango" -> R.drawable.mango
+            "pear" -> R.drawable.pear
+            "apple" -> R.drawable.apple
+            "pineapple" -> R.drawable.pineapple
+        }
     }
 
     override fun equals(other: Any?): Boolean {
