@@ -131,8 +131,8 @@ fun ShoppingItem(navController: NavController, item: DBItem){
                 colors = CheckboxDefaults.colors(checkedColor = Color.Gray ),
                 modifier = Modifier.padding(end = 10.dp),
                 checked = item.inBasket,
-                onCheckedChange = { item.inBasket = it
-                })
+                onCheckedChange = {}
+            )
         }
         
         
@@ -205,6 +205,7 @@ fun ShoppingItem(navController: NavController, item: DBItem){
                             Text(text = "no")
                         }
                     }
+                    Spacer(modifier = Modifier.height(10.dp))
                 }
             }
         }

@@ -33,16 +33,6 @@ class DBItem : Serializable{
         this.number = number
         this.rating = rating
         this.inBasket = inBasket
-        when (name.lowercase()) {
-            "banana" -> image = R.drawable.banana
-            "cherry" -> image = R.drawable.cherry
-            "plum" -> image = R.drawable.plum
-            "mandarin" -> image = R.drawable.mandarin
-            "mango" -> image = R.drawable.mango
-            "pear" -> image = R.drawable.pear
-            "apple" -> image = R.drawable.apple
-            "pineapple" -> image = R.drawable.pineapple
-        }
     }
 
     override fun equals(other: Any?): Boolean {

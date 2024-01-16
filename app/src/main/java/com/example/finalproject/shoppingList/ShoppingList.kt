@@ -36,7 +36,7 @@ fun ShoppingList(navController: NavController, itemList: List<DBItem>){
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(4.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
         ) {
 
@@ -78,7 +78,9 @@ fun ShoppingList(navController: NavController, itemList: List<DBItem>){
 @Composable
 fun PreviewShoppingList(){
     AppTheme {
-        val items = listOf(DBItem("banana", 5, 3.5F, true))
+        val items = listOf(DBItem("banana", 5, 3.5F, true),
+                            DBItem("cherry", 2, 3.5F, false),
+                            DBItem("pineapple", 2, 3.5F, false))
         ShoppingList(rememberNavController(), itemList = items)
     }
 }
