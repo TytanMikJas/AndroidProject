@@ -40,10 +40,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -52,6 +54,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.finalproject.R
+import com.example.finalproject.home.LightBlue
+import com.example.finalproject.home.Purple
 import com.example.finalproject.repos.DBItem
 import com.example.finalproject.repos.DataRepo
 import com.example.finalproject.ui.theme.AppTheme
@@ -60,6 +64,7 @@ import com.example.finalproject.ui.theme.AppTheme
 @Composable
 fun AddItem(navController: NavController, id: Int, itemList: List<DBItem>){
 
+    val colors = listOf(Purple, LightBlue)
     val isModification = id != -1
     val context = LocalContext.current
 
@@ -92,63 +97,90 @@ fun AddItem(navController: NavController, id: Int, itemList: List<DBItem>){
             .padding(4.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(32.dp)
-        ) {
-            ExposedDropdownMenuBox(
-                expanded = expanded,
-                onExpandedChange = {
-                    expanded = !expanded
-                }
-            ) {
-                TextField(
-                    value = selectedText,
-                    onValueChange = {},
-                    readOnly = true,
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                    modifier = Modifier.menuAnchor()
-                )
 
-                ExposedDropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false }
-                ) {
-                    shopItems.forEach { item ->
-                        DropdownMenuItem(
-                            text = { Text(text = item) },
-                            onClick = {
-                                selectedText = item
-                                expanded = false
-                                when (selectedText) {
-                                    "banana" -> selectedImage = R.drawable.banana
-                                    "cherry" -> selectedImage = R.drawable.cherry
-                                    "plum" -> selectedImage = R.drawable.plum
-                                    "mandarin" -> selectedImage = R.drawable.mandarin
-                                    "mango" -> selectedImage = R.drawable.mango
-                                    "pear" -> selectedImage = R.drawable.pear
-                                    "apple" -> selectedImage = R.drawable.apple
-                                    "pineapple" -> selectedImage = R.drawable.pineapple
-                                }
+        Text(
+            text = "Choose an item",
+            style = TextStyle(
+                brush = Brush.linearGradient(
+                    colors = colors
+                )
+            ),
+            fontSize = 24.sp,
+            modifier = Modifier
+                .padding(top = 20.dp)
+        )
+
+
+        ExposedDropdownMenuBox(
+            expanded = expanded,
+            onExpandedChange = {
+                expanded = !expanded
+            }
+        ) {
+            TextField(
+                value = selectedText,
+                onValueChange = {},
+                readOnly = true,
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                modifier = Modifier.menuAnchor()
+            )
+
+            ExposedDropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                shopItems.forEach { item ->
+                    DropdownMenuItem(
+                        text = { Text(text = item)},
+                        onClick = {
+                            selectedText = item
+                            expanded = false
+                            when (selectedText) {
+                                "banana" -> selectedImage = R.drawable.banana
+                                "cherry" -> selectedImage = R.drawable.cherry
+                                "plum" -> selectedImage = R.drawable.plum
+                                "mandarin" -> selectedImage = R.drawable.mandarin
+                                "mango" -> selectedImage = R.drawable.mango
+                                "pear" -> selectedImage = R.drawable.pear
+                                "apple" -> selectedImage = R.drawable.apple
+                                "pineapple" -> selectedImage = R.drawable.pineapple
                             }
-                        )
-                    }
+                        }
+                    )
                 }
             }
         }
 
+
+        Spacer(modifier = Modifier.height(25.dp))
+
         OutlinedTextField(
             value = number,
             onValueChange = { number = it },
-            label = { Text("Number of Fruits") },
+            label = {Text(
+                        text = "Number of Fruits",
+                        style = TextStyle(
+                            brush = Brush.linearGradient(
+                                colors = colors)),
+                        fontSize = 16.sp)
+                    },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
         )
 
-
+        Text(
+            text = "How necessary?",
+            style = TextStyle(
+                brush = Brush.linearGradient(
+                    colors = colors
+                )
+            ),
+            fontSize = 24.sp,
+            modifier = Modifier
+                .padding(top = 25.dp)
+        )
         Column {
             Slider(
                 value = sliderPosition,
@@ -167,14 +199,19 @@ fun AddItem(navController: NavController, id: Int, itemList: List<DBItem>){
 
         Row(
             modifier = Modifier
-                .fillMaxWidth()
                 .padding(vertical = 8.dp),
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
                 text = "In basket:",
                 modifier = Modifier
-                    .align(Alignment.CenterVertically)
+                    .align(Alignment.CenterVertically),
+                style = TextStyle(
+                    brush = Brush.linearGradient(
+                        colors = colors
+                    )
+                ),
+                fontSize = 16.sp
             )
 
             Checkbox(
@@ -187,16 +224,20 @@ fun AddItem(navController: NavController, id: Int, itemList: List<DBItem>){
             )
         }
 
+        Spacer(modifier = Modifier.height(25.dp))
 
 
         Image(
             painter = painterResource(id = selectedImage),
             contentDescription = null,
             modifier = Modifier
-                .width(100.dp)
-                .height(100.dp),
+                .width(150.dp)
+                .height(150.dp),
             contentScale = ContentScale.Crop
         )
+
+        Spacer(modifier = Modifier.height(25.dp))
+
 
         Row(
             modifier = Modifier
