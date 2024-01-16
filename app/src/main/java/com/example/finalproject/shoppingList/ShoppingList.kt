@@ -78,7 +78,6 @@ fun ShoppingList(navController: NavController, itemList: List<DBItem>){
 @Composable
 fun PreviewShoppingList(){
     AppTheme {
-        val itemlist = listOf(DBItem(1, true, 2, 3.1F));
-        ShoppingList(rememberNavController(), itemList = itemlist)
+        ShoppingList(rememberNavController(), itemList = listOf())
     }
 }

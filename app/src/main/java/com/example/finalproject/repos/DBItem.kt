@@ -12,30 +12,24 @@ class DBItem : Serializable{
     var id = 0
 
     @ColumnInfo(name = "name")
-    var text_main: String = "Banana"
-
-    @ColumnInfo(name = "fixedText")
-    var text_2: String = "amount = "
+    var name: String = "Banana"
 
     @ColumnInfo(name = "amount")
-    var item_value: Int = Random.nextInt(1, 8)
+    var number: Int = Random.nextInt(1, 8)
 
     @ColumnInfo(name = "rating")
-    var item_rating: Float = Random.nextFloat() * 5
-
-    @ColumnInfo(name = "type")
-    var item_type : Int = Random.nextInt(0,5)
+    var rating: Float = Random.nextFloat() * 5
 
     @ColumnInfo(name = "boolean")
-    var item_checked : Boolean = Random.nextBoolean()
+    var inBasket : Boolean = Random.nextBoolean()
 
     constructor()
 
-    constructor(num1 : Int,  bool : Boolean, num2 : Int, num3: Float) : this() {
-        item_value = num1
-        item_type = num2
-        item_checked = bool
-        item_rating = num3
+    constructor(name : String,  number : Int, rating: Float, inBasket: Boolean) : this() {
+        this.name = name
+        this.number = number
+        this.rating = rating
+        this.inBasket = inBasket
     }
 
     override fun equals(other: Any?): Boolean {
