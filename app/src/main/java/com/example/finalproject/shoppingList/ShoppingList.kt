@@ -74,7 +74,7 @@ fun ShoppingList(navController: NavController, itemList: List<DBItem>){
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun PreviewShoppingList(){
     AppTheme {

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -44,8 +45,10 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -65,8 +68,8 @@ import com.example.finalproject.ui.theme.AppTheme
 fun AddItem(navController: NavController, id: Int, itemList: List<DBItem>){
 
     val colors = listOf(Purple, LightBlue)
-    val isModification = id != -1
     val context = LocalContext.current
+    val focusManager = LocalFocusManager.current
 
     val shopItems = arrayOf("Banana", "Cherry", "Plum", "Mandarin", "Mango", "Pear", "Apple", "Pineapple")
     var expanded by remember { mutableStateOf(false) }
@@ -74,7 +77,7 @@ fun AddItem(navController: NavController, id: Int, itemList: List<DBItem>){
     val dbItem = remember { mutableStateOf(DBItem("", -1, -1f, false)) }
 
 
-    if (isModification) {
+    if (id != -1) {
         dbItem.value = itemList.find { it.id == id }!!
     }
 
@@ -160,10 +163,13 @@ fun AddItem(navController: NavController, id: Int, itemList: List<DBItem>){
                                 colors = colors)),
                         fontSize = 16.sp)
                     },
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp)
+                .padding(vertical = 8.dp),
+            keyboardActions = KeyboardActions(
+                onDone = { focusManager.clearFocus() }
+            )
         )
 
         Text(
@@ -276,7 +282,7 @@ fun AddItem(navController: NavController, id: Int, itemList: List<DBItem>){
 
                     dbItem.value.inBasket = checkedState.value
 
-                    if (isModification) {
+                    if (id != -1) {
                         DataRepo.getInstance(context).modifyItem(dbItem.value)
                     } else {
                         DataRepo.getInstance(context).addItem(dbItem.value)
@@ -286,13 +292,8 @@ fun AddItem(navController: NavController, id: Int, itemList: List<DBItem>){
                 modifier = Modifier.weight(1f)
             ) {
                 Spacer(modifier = Modifier.width(10.dp))
-                if(isModification){
-                    Icon(imageVector = Icons.Default.Check, contentDescription = null)
-                    Text("Save")
-                } else {
-                    Icon(imageVector = Icons.Default.Add, contentDescription = null)
-                    Text("Add")
-                }
+                Icon(imageVector = Icons.Default.Add, contentDescription = null)
+                Text("Add")
             }
         }
 

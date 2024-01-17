@@ -155,8 +155,10 @@ fun App(navController: NavHostController) {
 
 @Composable
 fun AppNavigation(modifier: Modifier, navController: NavHostController) {
+
     val context = LocalContext.current
-    val repositoryState = DataRepo.getInstance(context).getData().collectAsState(initial = emptyList<DBItem>())
+    val dataRepo = DataRepo.getInstance(context).getData().collectAsState(initial = emptyList())
+
     Surface(
         modifier = modifier
             .fillMaxSize()
@@ -175,16 +177,16 @@ fun AppNavigation(modifier: Modifier, navController: NavHostController) {
                 route = "List"
             ){
                 composable("ShoppingList") {
-                    ShoppingList(navController, itemList = repositoryState.value)
+                    ShoppingList(navController, itemList = dataRepo.value)
                 }
                 composable("AddItem") {
-                    AddItem(navController, -1, repositoryState.value)
+                    AddItem(navController, -1, dataRepo.value)
                 }
                 composable("ItemDetails/{itemId}", arguments = listOf(navArgument("itemId") {type = NavType.IntType})) { backStackEntry ->
-                    ItemDetails(navController = navController, id = backStackEntry.arguments!!.getInt("itemId"), itemList = repositoryState.value)
+                    ItemDetails(navController = navController, id = backStackEntry.arguments!!.getInt("itemId"), itemList = dataRepo.value)
                 }
                 composable("ModifyItem/{itemId}", arguments = listOf(navArgument("itemId") {type = NavType.IntType})) { backStackEntry ->
-                    AddItem(navController = navController, id = backStackEntry.arguments!!.getInt("itemId"), itemList = repositoryState.value)
+                    AddItem(navController = navController, id = backStackEntry.arguments!!.getInt("itemId"), itemList = dataRepo.value)
                 }
             }
 

@@ -62,6 +62,7 @@ import com.example.finalproject.home.LightBlue
 import com.example.finalproject.home.Purple
 import com.example.finalproject.ui.theme.AppTheme
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -85,9 +86,7 @@ fun Profile(){
 
     val gradientColors = listOf(Purple, LightBlue, Color.Cyan)
 
-    val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
-
 
 
     Column(
@@ -124,7 +123,11 @@ fun Profile(){
                                 )
                             ),
                      )
-            }
+            },
+            keyboardOptions = KeyboardOptions.Default.copy(imeAction = androidx.compose.ui.text.input.ImeAction.Done),
+            keyboardActions = KeyboardActions(
+                onDone = { focusManager.clearFocus() }
+            )
         )
 
 
@@ -159,6 +162,10 @@ fun Profile(){
                         ),
                     )
             },
+            keyboardOptions = KeyboardOptions.Default.copy(imeAction = androidx.compose.ui.text.input.ImeAction.Done),
+            keyboardActions = KeyboardActions(
+                onDone = { focusManager.clearFocus() }
+            )
         )
     }
 }
