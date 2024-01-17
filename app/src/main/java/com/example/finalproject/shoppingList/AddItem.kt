@@ -68,23 +68,19 @@ fun AddItem(navController: NavController, id: Int, itemList: List<DBItem>){
     val isModification = id != -1
     val context = LocalContext.current
 
-    val shopItems = arrayOf("banana", "cherry", "plum", "mandarin", "mango", "pear", "apple", "pineapple")
+    val shopItems = arrayOf("Banana", "Cherry", "Plum", "Mandarin", "Mango", "Pear", "Apple", "Pineapple")
     var expanded by remember { mutableStateOf(false) }
 
-    var selectedText by remember { mutableStateOf(shopItems[0]) }
-    var sliderPosition by remember { mutableFloatStateOf(0f) }
-    var selectedImage by remember { mutableIntStateOf(R.drawable.banana) }
-
-    val dbItem = remember { mutableStateOf(DBItem("banana", -1, -1f, false)) }
+    val dbItem = remember { mutableStateOf(DBItem("", -1, -1f, false)) }
 
 
     if (isModification) {
         dbItem.value = itemList.find { it.id == id }!!
-        selectedText = dbItem.value.name
-        sliderPosition = dbItem.value.rating
-        selectedImage = dbItem.value.image
     }
 
+    var selectedText by remember { mutableStateOf( if(dbItem.value.name != "") dbItem.value.name else shopItems[0] ) }
+    var sliderPosition by remember { mutableFloatStateOf( if(dbItem.value.rating != -1F) dbItem.value.rating else 0F  ) }
+    var selectedImage by remember { mutableIntStateOf( if(dbItem.value.image != R.drawable.banana) dbItem.value.image else R.drawable.banana ) }
     var checkedState = remember { mutableStateOf(dbItem.value.inBasket) }
 
 
@@ -135,7 +131,7 @@ fun AddItem(navController: NavController, id: Int, itemList: List<DBItem>){
                         onClick = {
                             selectedText = item
                             expanded = false
-                            when (selectedText) {
+                            when (selectedText.lowercase()) {
                                 "banana" -> selectedImage = R.drawable.banana
                                 "cherry" -> selectedImage = R.drawable.cherry
                                 "plum" -> selectedImage = R.drawable.plum
@@ -193,7 +189,14 @@ fun AddItem(navController: NavController, id: Int, itemList: List<DBItem>){
                 steps = 3,
                 valueRange = 0f..1f
             )
-            Text(text = sliderPosition.toString(),
+            Text(text = when(sliderPosition){
+                            0.0F -> "Don't really need"
+                            0.25F -> "Might buy"
+                            0.5F -> "Can buy"
+                            0.75F -> "Should buy"
+                            1F -> "Very necessary"
+                            else -> "???"
+                        },
                 textAlign = TextAlign.Center)
         }
 
